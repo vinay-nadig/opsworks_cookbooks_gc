@@ -1,5 +1,5 @@
 #
-# Copyright 2012, Chef Software, Inc. <legal@chef.io>
+# Copyright 2012, Opscode, Inc. <legal@opscode.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,4 +25,5 @@ describe 'rabbitmq_test::cook-1724' do
     file('/etc/apt/sources.list.d/rabbitmq-source.list').wont_exist &&
       package('rabbitmq-server').must_be_installed
   end
+
 end

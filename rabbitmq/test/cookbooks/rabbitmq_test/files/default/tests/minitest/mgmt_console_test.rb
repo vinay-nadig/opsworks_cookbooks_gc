@@ -1,5 +1,5 @@
 #
-# Copyright 2012-2013, Chef Software, Inc.
+# Copyright 2012-2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,4 +26,5 @@ describe 'rabbitmq_test::mgmt_console' do
   it 'enables the rabbitmq_management_visualiser plugin' do
     assert(plugin_enabled?('rabbitmq_management_visualiser'))
   end
+
 end

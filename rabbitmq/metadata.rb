@@ -1,24 +1,22 @@
-name 'rabbitmq'
-maintainer 'Chef, Inc.'
-maintainer_email 'cookbooks@chef.io'
-license 'Apache 2.0'
-description 'Installs and configures RabbitMQ server'
-version '3.11.0'
-recipe 'rabbitmq', 'Install and configure RabbitMQ'
-recipe 'rabbitmq::cluster', 'Set up RabbitMQ clustering.'
-recipe 'rabbitmq::plugin_management', 'Manage plugins with node attributes'
-recipe 'rabbitmq::virtualhost_management', 'Manage virtualhost with node attributes'
-recipe 'rabbitmq::user_management', 'Manage users with node attributes'
-
-depends 'erlang', '>= 0.9'
-depends 'yum-epel'
-depends 'yum-erlang_solutions'
+name              'rabbitmq'
+maintainer        'Opscode, Inc.'
+maintainer_email  'cookbooks@opscode.com'
+license           'Apache 2.0'
+description       'Installs and configures RabbitMQ server'
+version           '2.4.2'
+recipe            'rabbitmq', 'Install and configure RabbitMQ'
+recipe            'rabbitmq::cluster', 'Set up RabbitMQ clustering.'
+recipe            'rabbitmq::plugin_management', 'Manage plugins with node attributes'
+recipe            'rabbitmq::virtualhost_management', 'Manage virtualhost with node attributes'
+recipe            'rabbitmq::user_management', 'Manage users with node attributes'
+depends           'erlang', '>= 0.9'
 
 supports 'debian'
 supports 'ubuntu'
 supports 'redhat'
 supports 'centos'
 supports 'scientific'
+supports 'amazon'
 supports 'oracle'
 supports 'smartos'
 supports 'suse'
@@ -82,7 +80,7 @@ attribute 'rabbitmq/virtualhosts',
 attribute 'rabbitmq/enabled_users',
   :display_name => 'Users and their rights on rabbitmq instance',
   :description => 'Users and description of their rights',
-  :default => [{ :name => 'guest', :password => 'guest', :rights => [{ :vhost => nil, :conf => '.*', :write => '.*', :read => '.*' }] }],
+  :default => [{ :name => 'guest', :password => 'guest', :rights => [{ :vhost => nil , :conf => '.*', :write => '.*', :read => '.*' }] }],
   :type => 'array'
 
 attribute 'rabbitmq/disabled_users',
@@ -110,9 +108,3 @@ attribute 'rabbitmq/local_erl_networking',
 attribute 'rabbitmq/erl_networking_bind_address',
   :display_name => 'Erl Networking Bind Address',
   :description => 'Bind Rabbit and erlang networking to an address'
-
-attribute 'rabbitmq/loopback_users',
-  :display_name => 'Loopback Users',
-  :description => 'A list of users which can only connect over a loopback interface (localhost)',
-  :default => nil,
-  :type => 'array'

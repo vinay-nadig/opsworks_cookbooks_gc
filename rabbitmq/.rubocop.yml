@@ -15,6 +15,3 @@ AsciiComments:
 
 MethodLength:
   Max: 18
-
-Style/FileName:
-  Enabled: false

@@ -40,7 +40,6 @@ action :set do
   unless policy_exists?(new_resource.vhost, new_resource.policy)
     cmd = 'rabbitmqctl set_policy'
     cmd << " -p #{new_resource.vhost}" unless new_resource.vhost.nil?
-    cmd << " --apply-to #{new_resource.apply_to}" if new_resource.apply_to
     cmd << " #{new_resource.policy}"
     cmd << " \"#{new_resource.pattern}\""
     cmd << " '{"
@@ -49,7 +48,7 @@ action :set do
     new_resource.params.each do |key, value|
       cmd << ',' unless first_param
 
-      if value.is_a? String
+      if value.kind_of? String
         cmd << "\"#{key}\":\"#{value}\""
       else
         cmd << "\"#{key}\":#{value}"
@@ -58,11 +57,7 @@ action :set do
     end
 
     cmd << "}'"
-    if node['rabbitmq']['version'] >= '3.2.0'
-      cmd << " --priority #{new_resource.priority}" if new_resource.priority
-    else
-      cmd << " #{new_resource.priority}" if new_resource.priority
-    end
+    cmd << " #{new_resource.priority}" if new_resource.priority
 
     execute "set_policy #{new_resource.policy}" do
       command cmd

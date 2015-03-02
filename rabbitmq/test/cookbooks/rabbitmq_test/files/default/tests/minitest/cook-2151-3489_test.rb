@@ -1,5 +1,5 @@
 #
-# Copyright 2012-2013, Chef Software, Inc. <legal@chef.io>
+# Copyright 2012-2013, Opscode, Inc. <legal@opscode.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ describe 'rabbitmq_test::cook-2151' do
 
   it 'includes the open_file_limit configuration setting' do
     file("#{node['rabbitmq']['config_root']}/rabbitmq-env.conf")
-      .must_match(/(ulimit -n #{node['rabbitmq']['open_file_limit']})/)
+       .must_match(/(ulimit -n #{node['rabbitmq']['open_file_limit']})/)
   end
+
 end

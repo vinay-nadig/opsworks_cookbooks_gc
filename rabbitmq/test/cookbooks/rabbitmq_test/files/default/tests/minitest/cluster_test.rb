@@ -1,5 +1,5 @@
 #
-# Copyright 2012, Chef Software, Inc. <legal@chef.io>
+# Copyright 2012, Opscode, Inc. <legal@opscode.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 #
 
 describe 'rabbitmq_test::cluster' do
+
   it 'writes the erlang cookie file' do
     file('/var/lib/rabbitmq/.erlang.cookie').must_exist
   end
@@ -24,4 +25,5 @@ describe 'rabbitmq_test::cluster' do
       /^    {cluster_nodes, [.*]},$/
     )
   end
+
 end

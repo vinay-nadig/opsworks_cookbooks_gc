@@ -2,7 +2,7 @@
 # Cookbook Name:: rabbitmq
 # Provider:: user
 #
-# Copyright 2011-2013, Chef Software, Inc.
+# Copyright 2011-2013, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,8 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-use_inline_resources
 
 def user_exists?(name)
   cmd = "rabbitmqctl -q list_users |grep '^#{name}\\b'"
@@ -52,9 +50,9 @@ end
 
 # does the user have the rights listed on the vhost?
 # empty perm_list means we're checking for any permissions
-def user_has_permissions?(name, vhost, perm_list = nil) # rubocop:disable all
-  vhost = '/' if vhost.nil? # rubocop:enable all
-  cmd = "rabbitmqctl -q list_user_permissions #{name} | grep \"^#{vhost}\\s\""
+def user_has_permissions?(name, vhost, perm_list = nil)
+  vhost = '/' if vhost.nil?
+  cmd = "rabbitmqctl -q list_user_permissions #{name} | grep \"^#{vhost}\\b\""
   cmd = Mixlib::ShellOut.new(cmd)
   cmd.environment['HOME'] = ENV.fetch('HOME', '/root')
   cmd.run_command
@@ -84,10 +82,10 @@ action :add do
     # of leaning toothpicks:
     new_password = new_resource.password.gsub("'", "'\\\\''")
     cmd = "rabbitmqctl add_user #{new_resource.user} '#{new_password}'"
-    execute "rabbitmqctl add_user #{new_resource.user}" do # ~FC009
-      sensitive true
+    execute "rabbitmqctl add_user #{new_resource.user}" do
       command cmd
       Chef::Log.info "Adding RabbitMQ user '#{new_resource.user}'."
+      new_resource.updated_by_last_action(true)
     end
   end
 end
@@ -98,6 +96,7 @@ action :delete do
     execute cmd do
       Chef::Log.debug "rabbitmq_user_delete: #{cmd}"
       Chef::Log.info "Deleting RabbitMQ user '#{new_resource.user}'."
+      new_resource.updated_by_last_action(true)
     end
   end
 end
@@ -112,6 +111,7 @@ action :set_permissions do
     execute cmd do
       Chef::Log.debug "rabbitmq_user_set_permissions: #{cmd}"
       Chef::Log.info "Setting RabbitMQ user permissions for '#{new_resource.user}' on vhost #{new_resource.vhost}."
+      new_resource.updated_by_last_action(true)
     end
   end
 end
@@ -125,6 +125,7 @@ action :clear_permissions do
     execute cmd do
       Chef::Log.debug "rabbitmq_user_clear_permissions: #{cmd}"
       Chef::Log.info "Clearing RabbitMQ user permissions for '#{new_resource.user}' from vhost #{new_resource.vhost}."
+      new_resource.updated_by_last_action(true)
     end
   end
 end
@@ -137,6 +138,7 @@ action :set_tags do
     execute cmd do
       Chef::Log.debug "rabbitmq_user_set_tags: #{cmd}"
       Chef::Log.info "Setting RabbitMQ user '#{new_resource.user}' tags '#{new_resource.tag}'"
+      new_resource.updated_by_last_action(true)
     end
   end
 end
@@ -149,6 +151,7 @@ action :clear_tags do
     execute cmd do
       Chef::Log.debug "rabbitmq_user_clear_tags: #{cmd}"
       Chef::Log.info "Clearing RabbitMQ user '#{new_resource.user}' tags."
+      new_resource.updated_by_last_action(true)
     end
   end
 end
@@ -157,9 +160,9 @@ action :change_password do
   if user_exists?(new_resource.user)
     cmd = "rabbitmqctl change_password #{new_resource.user} #{new_resource.password}"
     execute cmd do
-      sensitive true
       Chef::Log.debug "rabbitmq_user_change_password: #{cmd}"
       Chef::Log.info "Editing RabbitMQ user '#{new_resource.user}'."
+      new_resource.updated_by_last_action(true)
     end
   end
 end
