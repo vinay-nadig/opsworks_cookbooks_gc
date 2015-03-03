@@ -1,0 +1,26 @@
+defaults: &defaults
+  host: node['deploy']['salescraft-api']['rabbitmq']['host']
+  vhost: '/'
+  user: node['deploy']['salescraft-api']['rabbitmq']['user']
+  password: node['deploy']['salescraft-api']['rabbitmq']['password']
+  port: node['deploy']['salescraft-api']['rabbitmq']['port']
+
+development:
+  <<: *defaults
+  exchanges:
+    model_notifier: 'model-notifier-dev'
+
+test:
+  <<: *defaults
+  exchanges:
+    model_notifier: 'model-notifier-test'
+
+staging:
+  <<: *defaults
+  exchanges:
+    model_notifier: 'model-notifier-stage'
+
+production:
+  <<: *defaults
+  exchanges:
+    model_notifier: 'model-notifier'
