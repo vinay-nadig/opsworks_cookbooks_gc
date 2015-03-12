@@ -1,9 +1,9 @@
 defaults: &defaults
-  host: <%= node['deploy']['salescraft-api']['rabbitmq']['host'] %>
+  host: <%= node['deploy']['gamecraft-api']['rabbitmq']['host'] %>
   vhost: '/'
-  user: <%= node['deploy']['salescraft-api']['rabbitmq']['user'] %>
-  password: <%= node['deploy']['salescraft-api']['rabbitmq']['password'] %>
-  port: <%= node['deploy']['salescraft-api']['rabbitmq']['port'] %>
+  user: <%= node['deploy']['gamecraft-api']['rabbitmq']['user'] %>
+  password: <%= node['deploy']['gamecraft-api']['rabbitmq']['password'] %>
+  port: <%= node['deploy']['gamecraft-api']['rabbitmq']['port'] %>
 
 development:
   <<: *defaults
